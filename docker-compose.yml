@@ -1,0 +1,33 @@
+version: '3'
+services:
+  app:
+    build: .
+    image: rex/keycloak:latest
+    depends_on:
+      - mysql
+    ports:
+      - 8080:8080
+    environment:
+      DB_ADDR: mysql
+      DB_USER: keycloak
+      DB_PASSWORD: passW@rd
+      DB_DATABASE: keycloakdb
+
+  mysql:
+    image: mysql:5.7
+    ports:
+      - 3306:3306
+    environment:
+      MYSQL_USER: keycloak
+      MYSQL_PASSWORD: passW@rd
+      MYSQL_DATABASE: keycloakdb
+      MYSQL_ROOT_PASSWORD: rootpassW@rd
+    volumes:
+      - ./data/db:/var/lib/mysql
+    command:
+      #- --binlog-format=ROW
+      #- --character-set-server=utf8mb4
+      #- --collation-server=utf8mb4_unicode_ci
+      #- --transaction-isolation=READ-COMMITTED
+      - --explicit_defaults_for_timestamp=ON
+      - --default-authentication-plugin=mysql_native_password

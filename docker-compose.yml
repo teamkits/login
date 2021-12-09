@@ -1,46 +1,30 @@
 version: '3'
 services:
   app:
-    build: .
-    image: rex/keycloak:latest
-    depends_on:
-      - mysql
+    image: jboss/keycloak:15.0.2
     ports:
       - 8080:8080
+      #- 9990:9990
     environment:
       TZ: Asia/Shanghai
-      DB_ADDR: mysql
-      DB_USER: keycloak
-      DB_PASSWORD: passW@rd
-      DB_DATABASE: keycloakdb
-      JDBC_PARAMS: 'useSSL=false&verifyServerCertificate=false'
-      #PROXY_ADDRESS_FORWARDING: true
-      KEYCLOAK_HTTP_PORT: 8080
-      #KEYCLOAK_HTTPS_PORT: 4430
-      #KEYCLOAK_HOSTNAME: local.login.alizhongzhi.top
+      #DB_VENDOR: postgres
+      #DB_ADDR: host.docker.internal:5432
+      DB_VENDOR: mysql
+      DB_ADDR: rm-8vb596im619h36870so.mysql.zhangbei.rds.aliyuncs.com
+      DB_PORT: 3306
+      DB_USER: tkdbman
+      DB_DATABASE: tkdb
+      DB_PASSWORD: Tkdbman@Pass
+      #JDBC_PARAMS: 'useSSL=false&verifyServerCertificate=false'
+
+      KEYCLOAK_USER: admin
+      KEYCLOAK_PASSWORD: admin@123
+
       #KEYCLOAK_WELCOME_THEME=XXX
       #KEYCLOAK_DEFAULT_THEME=XXX
-    volumes:
-      - ./data:/tmp/xxdata
-      #- ./tls:/etc/x509/https
-      #- ./provider/aa:/opt/jboss/keycloak/standalone/deployments/aa
+      #PROXY_ADDRESS_FORWARDING: true
+      #KEYCLOAK_HOSTNAME: local.login.alizhongzhi.top
+    #volumes:
       #- ./themes/aa:/opt/jboss/keycloak/themes/aa
-
-  mysql:
-    image: mysql:5.7
-    ports:
-      - 3306:3306
-    environment:
-      MYSQL_USER: keycloak
-      MYSQL_PASSWORD: passW@rd
-      MYSQL_DATABASE: keycloakdb
-      MYSQL_ROOT_PASSWORD: rootpassW@rd
-    volumes:
-      - ./data/db:/var/lib/mysql
-    command:
-      #- --binlog-format=ROW
-      #- --character-set-server=utf8mb4
-      #- --collation-server=utf8mb4_unicode_ci
-      #- --transaction-isolation=READ-COMMITTED
-      - --explicit_defaults_for_timestamp=ON
-      - --default-authentication-plugin=mysql_native_password
+    extra_hosts:
+      - "smtp.service.uri:113.96.208.92"

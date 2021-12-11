@@ -1,7 +1,0 @@
-name: Build Docker Image
-on: 
-  push:
-    branches:
-      - main
-    tags:
-      - v.[1-9]+

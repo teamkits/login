@@ -1,8 +1,6 @@
 # Login service
 base on the [keycloak](https://www.keycloak.org)
 
-https://www.zhashui-muer.com.cn
-
 ### Tasks
 * [] Enable SSL
 * [] Custom theme

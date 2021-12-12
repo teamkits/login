@@ -5,7 +5,7 @@ on:
       - v-[0-9]+
 
 env:
-  IMAGE_NAME: teamkits/login
+  IMAGE_NAME: team-kits/login
   REGISTRY: registry.cn-zhangjiakou.aliyuncs.com
 
 jobs:

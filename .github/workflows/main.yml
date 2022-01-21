@@ -1,8 +1,8 @@
 name: Build Docker Image
-on: 
+on:
   push:
     tags:
-      - v-[0-9]+
+      - v.[0-9]+
 
 env:
   IMAGE_NAME: team-kits/login
@@ -26,7 +26,7 @@ jobs:
         uses: docker/metadata-action@v3
         with:
           images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
-      
+
       - name: Build and push
         uses: docker/build-push-action@v2
         with:

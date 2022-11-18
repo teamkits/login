@@ -1,0 +1,40 @@
+commonLabels:
+  app: login
+
+commonAnnotations:
+  maintainer: wangwii@foxmail.com
+
+resources:
+  - namespace.yml
+  - app.yml
+
+# 因为kustomize的bug，无法为引用的地方生成正确的name(缺少hash后缀)，所以全部使用 secret
+#configMapGenerator:
+#  - name: login-service-config
+#    envs:
+#      - conf.env
+
+secretGenerator:
+  - name: login-service-secret
+    envs:
+      - conf.env
+      - secrets.env
+
+patchesJson6902:
+  # 删除kustomize自动为Service生成的[selector]元素
+  - patch: |-
+      - op: remove
+        path: /spec/selector
+    target:
+      group: serving.knative.dev
+      version: v1
+      kind: Service
+      name: login
+  # 删除namespace的common label
+  - patch: |-
+      - op: remove
+        path: /metadata/labels
+    target:
+      version: v1
+      kind: Namespace
+      name: teamkits

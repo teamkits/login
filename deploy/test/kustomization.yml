@@ -1,0 +1,29 @@
+namePrefix: test-
+namespace: test-teamkits
+
+resources:
+  - ../base
+
+secretGenerator:
+  - name: login-service-secret
+    behavior: merge
+    envs:
+      - test.conf.env
+      - test.secrets.env
+
+images:
+  - name: login-image.name
+    newName: registry.cn-zhangjiakou.aliyuncs.com/team-kits/login
+    newTag: 'v.20220121134730'
+
+patchesJson6902:
+  # update the {revision-name}
+  - patch: |-
+      - op: replace
+        path: /spec/template/metadata/name
+        value: test-login-03
+    target:
+      group: serving.knative.dev
+      version: v1
+      kind: Service
+      name: login

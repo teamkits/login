@@ -1,0 +1,57 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: login-deployment
+  labels:
+    app: login
+  namespace: teamkits
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: login
+  template:
+    metadata:
+      namespace: teamkits
+      labels:
+        app: login
+    spec:
+      imagePullSecrets:
+      - name: docker-registry
+      hostAliases:
+      - ip: 192.168.176.247
+        hostnames:
+        - auth.teamkits.online
+      containers:
+        - name: login-pod
+          image: rex/login:dev
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 8080
+            - containerPort: 8433
+          env:
+            - name: KC_DB_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: login-conf
+                  key: KC_DB_URL
+            - name: KC_DB_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: login-secret
+                  key: KC_DB_USERNAME
+            - name: KC_DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: login-secret
+                  key: KC_DB_PASSWORD
+            - name: KEYCLOAK_ADMIN_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: login-secret
+                  key: KEYCLOAK_ADMIN_PASSWORD
+          command: 
+            - /opt/keycloak/bin/kc.sh
+            - start
+          args:
+            - --optimized

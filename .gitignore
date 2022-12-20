@@ -1,5 +1,6 @@
 tmp/
 data/
 .idea/
+.certs/
 .DS_Store
 .reCAPTCHA

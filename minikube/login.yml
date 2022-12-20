@@ -1,0 +1,68 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: login-deployment
+  labels:
+    app: login
+  namespace: teamkits
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: login
+  template:
+    metadata:
+      namespace: teamkits
+      labels:
+        app: login
+    spec:
+      imagePullSecrets:
+      - name: docker-registry
+      hostAliases:
+      containers:
+      - name: login-pod
+        image: rex/login:dev
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 8080
+        - containerPort: 8433
+        volumeMounts:
+        - name: certs
+          readOnly: true
+          mountPath: /opt/keycloak/certs
+        envFrom:
+        - configMapRef:
+            name: login-conf
+        - secretRef:
+            name: login-secret
+        command: 
+          - /opt/keycloak/bin/kc.sh
+          - start
+        args:
+          # - --optimized
+          - --db=mysql
+          - --hostname-strict=false
+          - --https-certificate-file=/opt/keycloak/certs/tls.crt
+          - --https-certificate-key-file=/opt/keycloak/certs/tls.key
+      volumes:
+      - name: certs
+        secret:
+          optional: false
+          secretName: auth.teamkits.online
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: login-service
+  labels:
+    app: login
+  namespace: teamkits
+spec:
+  type: NodePort
+  selector:
+    app: login
+  ports:
+    - protocol: TCP
+      port: 443
+      targetPort: 8443

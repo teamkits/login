@@ -1,11 +1,17 @@
-bin/
 .git/
 .data/
+.idea/
+.certs/
 .github/
 
 .gitignore
 .editorconfig
 .dockerignore
+
+bin/
+docs/
+deploy/
+minikube/
 
 README.md
 Dockerfile

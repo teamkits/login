@@ -2,7 +2,7 @@
 
 cd $(dirname $0)/..
 
-# tag_name="release-v$(date +'%Y%m%d%H%M%S')"
-tag_name="v.$(date +'%Y%m%d%H%M%S')"
+tag_name="release-v$(date +'%Y%m%d%H%M%S')"
+# tag_name="v.$(date +'%Y%m%d%H%M%S')"
 git tag "$tag_name"
 git push origin "$tag_name"

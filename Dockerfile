@@ -1,25 +1,30 @@
 FROM quay.io/keycloak/keycloak:20.0.2 as builder
 
-WORKDIR /opt/keycloak
-
-#RUN curl -sL <MY_PROVIDER_JAR_URL> -o /opt/keycloak/providers/myprovider.jar
-RUN /opt/keycloak/bin/kc.sh build
-
-
-FROM quay.io/keycloak/keycloak:20.0.2
-LABEL maintainer="wangwii@foxmail.com"
 # Enable health and metrics support
 ENV KC_HEALTH_ENABLED=true
 ENV KC_METRICS_ENABLED=true
 
-# Common configration
+# Configure a database vendor
+ENV KC_DB=mysql
+
+WORKDIR /opt/keycloak
+#RUN curl -sL <MY_PROVIDER_JAR_URL> -o /opt/keycloak/providers/myprovider.jar
+RUN /opt/keycloak/bin/kc.sh build \
+    --db=mysql \
+    --health-enabled=true \
+    --metrics-enabled=true \
+    --transaction-xa-enabled=false
+
+FROM quay.io/keycloak/keycloak:20.0.2
+LABEL maintainer="wangwii@foxmail.com"
+
+# the configration
 # ENV KC_DB=mysql
 # ENV KEYCLOAK_ADMIN=admin
 # ENV KC_HOSTNAME=auth.teamkits.online
-
-#ENV KC_HTTP_ENABLED=false
-#ENV KC_HTTPS_CERTIFICATE_FILE=/opt/keycloak/certs/tls.crt
-#ENV KC_HTTPS_CERTIFICATE_KEY_FILE=/opt/keycloak/certs/tls.key
+# ENV KC_HTTP_ENABLED=false
+# ENV KC_HTTPS_CERTIFICATE_FILE=/opt/keycloak/certs/tls.crt
+# ENV KC_HTTPS_CERTIFICATE_KEY_FILE=/opt/keycloak/certs/tls.key
 
 # Sensitive configration
 # ENV KEYCLOAK_ADMIN_PASSWORD

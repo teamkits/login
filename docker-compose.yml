@@ -1,31 +1,30 @@
 version: '3'
 services:
   app:
-    image: rex/login:dev
+    image: registry-vpc.cn-hangzhou.aliyuncs.com/teamkits/login:20221223171438
     ports:
       - 8080:8080
-      # - 9990:9990
+      - 8433:8433
     environment:
-      TZ: Asia/Shanghai
-
-      DB_VENDOR: mysql
-      #DB_VENDOR: postgres
-      DB_PORT: 3306
-      DB_ADDR: rm-8vb596im619h36870so.mysql.zhangbei.rds.aliyuncs.com
-      DB_USER: tkdbman
-      DB_DATABASE: tkdb
-      DB_PASSWORD: Tkdbman@Pass
-      #KEYCLOAK_JDBC_PARAMS: 'useSSL=false&verifyServerCertificate=false'
-
-      KEYCLOAK_USER: admin
-      KEYCLOAK_PASSWORD: admin@123
-
-      # KEYCLOAK_STATISTICS: all
-      # KEYCLOAK_FRONTEND_URL: http:XXX
-
-      #KEYCLOAK_WELCOME_THEME=XXX
-      #KEYCLOAK_DEFAULT_THEME=XXX
-      #PROXY_ADDRESS_FORWARDING: true
-      #KEYCLOAK_HOSTNAME: local.login.alizhongzhi.top
+      KC_DB: mysql
+      KC_DB_URL_PORT: 3306
+      KC_DB_USERNAME: ****
+      KC_DB_URL_DATABASE: kcdb-test
+      KC_DB_URL_HOST: rm-bp15743n8nmzjnt0d.mysql.rds.aliyuncs.com
+      KC_DB_URL_PROPERTIES: "?useSSL=false&allowPublicKeyRetrieval=true&characterEncoding=UTF-8"
+      KEYCLOAK_ADMIN: ****
+      KC_DB_PASSWORD: ********
+      KEYCLOAK_ADMIN_PASSWORD: ********
     extra_hosts:
       - "smtp.service.uri:113.96.208.92"
+    volumes:
+      - .certs/auth.teamkits.online.pem:/opt/keycloak/certs/tls.crt:ro
+      - .certs/auth.teamkits.online.key:/opt/keycloak/certs/tls.key:ro
+    command:
+      - start
+      - --optimized
+      - --proxy=edge
+      - --http-enabled=true
+      - --hostname-strict=false
+      - --https-certificate-file=/opt/keycloak/certs/tls.crt
+      - --https-certificate-key-file=/opt/keycloak/certs/tls.key

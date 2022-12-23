@@ -1,0 +1,23 @@
+namespace: teamkits
+
+# commonLabels:
+#   app: login
+
+commonAnnotations:
+  maintainer: wangwii@foxmail.com
+
+configMapGenerator:
+  - name: login-conf
+    envs:
+      - conf.env
+
+secretGenerator:
+  - name: login-secret
+    envs:
+      - secrets.env
+
+resources:
+  - ns.yaml
+  - rs.yaml
+  - app.yaml
+  - service.yaml

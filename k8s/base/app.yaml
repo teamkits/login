@@ -1,0 +1,63 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: login
+spec:
+  # 副本数量(pod数量)
+  replicas: 1
+  # 保留历史版本 默认是10
+  revisionHistoryLimit: 3
+  # 部署超时时间(秒s)，默认是600
+  progressDeadlineSeconds: 600
+  
+  # 通过该选择器 指定要管理哪些pods
+  selector:
+    matchLabels:
+      app: login-pod
+
+  # 创建pod副本的模板：当副本数量不足时 采用该模板创建pod
+  template:
+    metadata:
+      labels:
+        app: login-pod
+    spec:
+      imagePullSecrets:
+        - name: docker-registry
+      containers:
+        - name: login-pod
+          image: login-image.name
+          imagePullPolicy: IfNotPresent
+          resources:
+            requests:
+              memory: "8Gi"
+              cpu: "1000m"
+            limits:
+              memory: "16Gi"
+              cpu: "2000m"
+          ports:
+            - containerPort: 8080
+            - containerPort: 8433
+          envFrom:
+            - configMapRef:
+                name: login-conf
+            - secretRef:
+                name: login-secret
+          volumeMounts:
+            - name: certs
+              readOnly: true
+              mountPath: /opt/keycloak/certs
+          command:
+            - /opt/keycloak/bin/kc.sh
+            - start
+          args:
+            # - --optimized
+            - --db=mysql
+            - --proxy=edge
+            - --hostname-strict=false
+            - --https-certificate-file=/opt/keycloak/certs/tls.crt
+            - --https-certificate-key-file=/opt/keycloak/certs/tls.key
+      volumes:
+        - name: certs
+          secret:
+            optional: false
+            secretName: auth.teamkits.online

@@ -15,10 +15,10 @@ resources:
 #      - conf.env
 
 secretGenerator:
-  - name: login-service-secret
-    envs:
-      - conf.env
-      - secrets.env
+- name: login-service-secret
+  envs:
+    - conf.env
+    - secrets.env
 
 patchesJson6902:
   # 删除kustomize自动为Service生成的[selector]元素

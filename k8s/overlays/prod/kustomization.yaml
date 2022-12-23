@@ -1,0 +1,19 @@
+configMapGenerator:
+  - name: login-conf
+    behavior: merge
+    envs:
+      - _prod.conf.env
+
+secretGenerator:
+  - name: login-secret
+    behavior: merge
+    envs:
+      - _prod.secrets.env
+
+resources:
+  - ../../base
+
+images:
+  - name: login-image.name
+    newName: registry-vpc.cn-hangzhou.aliyuncs.com/teamkits/login
+    newTag: '20221220195812'

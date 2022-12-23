@@ -1,0 +1,25 @@
+apiVersion: alibabacloud.com/v1
+kind: AlbConfig
+metadata:
+  name: alb-config
+spec:
+  config:
+    name: alb-config
+    addressType: Internet
+    zoneMappings:
+      - vSwitchId: vsw-bp1ly6717kr6v17er12fd
+      - vSwitchId: vsw-bp17orxxboqe42aa0jaqa
+      - vSwitchId: vsw-bp140wrafjowal44a63e7
+      - vSwitchId: vsw-bp1mxu3d4a4b7alggzpjf
+
+---
+apiVersion: networking.k8s.io/v1
+kind: IngressClass
+metadata:
+  name: alb
+spec:
+  controller: ingress.k8s.alibabacloud/alb
+  parameters:
+    apiGroup: alibabacloud.com
+    kind: AlbConfig
+    name: alb-config

@@ -36,7 +36,7 @@ spec:
               cpu: "2000m"
           ports:
             - containerPort: 8080
-            - containerPort: 8433
+            - containerPort: 8443
           envFrom:
             - configMapRef:
                 name: login-conf
@@ -50,9 +50,9 @@ spec:
             - /opt/keycloak/bin/kc.sh
             - start
           args:
-            # - --optimized
-            - --db=mysql
+            - --optimized
             - --proxy=edge
+            - --http-enabled=true
             - --hostname-strict=false
             - --https-certificate-file=/opt/keycloak/certs/tls.crt
             - --https-certificate-key-file=/opt/keycloak/certs/tls.key

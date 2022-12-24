@@ -4,9 +4,9 @@ services:
     image: registry-vpc.cn-hangzhou.aliyuncs.com/teamkits/login:20221223171438
     ports:
       - 8080:8080
-      - 8433:8433
+      - 8443:8443
     environment:
-      KC_DB: mysql
+      # KC_DB: mysql
       KC_DB_URL_PORT: 3306
       KC_DB_USERNAME: ****
       KC_DB_URL_DATABASE: kcdb-test

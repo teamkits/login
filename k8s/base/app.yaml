@@ -9,12 +9,10 @@ spec:
   revisionHistoryLimit: 3
   # 部署超时时间(秒s)，默认是600
   progressDeadlineSeconds: 600
-  
   # 通过该选择器 指定要管理哪些pods
   selector:
     matchLabels:
       app: login-pod
-
   # 创建pod副本的模板：当副本数量不足时 采用该模板创建pod
   template:
     metadata:
@@ -35,8 +33,9 @@ spec:
               memory: "16Gi"
               cpu: "2000m"
           ports:
-            - containerPort: 8080
+            # - containerPort: 8080
             - containerPort: 8443
+              name: https-web-svc
           envFrom:
             - configMapRef:
                 name: login-conf
@@ -51,8 +50,8 @@ spec:
             - start
           args:
             - --optimized
-            - --proxy=edge
-            - --http-enabled=true
+            - --proxy=reencrypt
+            - --http-enabled=false
             - --hostname-strict=false
             - --https-certificate-file=/opt/keycloak/certs/tls.crt
             - --https-certificate-key-file=/opt/keycloak/certs/tls.key

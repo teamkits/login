@@ -16,4 +16,4 @@ resources:
 images:
   - name: login-image.name
     newName: registry-vpc.cn-hangzhou.aliyuncs.com/teamkits/login
-    newTag: '20221220195812'
+    newTag: '20221223233116'

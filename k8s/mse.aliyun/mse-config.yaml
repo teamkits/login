@@ -1,0 +1,22 @@
+apiVersion: mse.alibabacloud.com/v1alpha1
+kind: MseIngressConfig
+metadata:
+  name: mse-config
+spec:
+  name: mse-config
+  common:
+    instance:
+      spec: 2c4g
+      replicas: 3
+
+---
+apiVersion: networking.k8s.io/v1
+kind: IngressClass
+metadata:
+  name: mse
+spec:
+  controller: mse.alibabacloud.com/ingress
+  parameters:
+    apiGroup: mse.alibabacloud.com
+    kind: MseIngressConfig
+    name: mse-config

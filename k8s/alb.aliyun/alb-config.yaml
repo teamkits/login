@@ -6,11 +6,32 @@ spec:
   config:
     name: alb-config
     addressType: Internet
+    deletionProtectionEnabled: true
+    accessLogConfig:
+      logStore: "alb_access_log"
+      logProject: "k8s-log-c8ad7cc13b4f84cf093dd6d2da8fefe64"
     zoneMappings:
       - vSwitchId: vsw-bp1ly6717kr6v17er12fd
       - vSwitchId: vsw-bp17orxxboqe42aa0jaqa
       - vSwitchId: vsw-bp140wrafjowal44a63e7
       - vSwitchId: vsw-bp1mxu3d4a4b7alggzpjf
+  listeners:
+    - caEnabled: false
+      certificates:
+        - CertificateId: 9038607
+          IsDefault: true
+          protocol: HTTPS
+          port: 443
+    - port: 443
+      protocol: HTTPS
+      gzipEnabled: true
+      requestTimeout: 60
+      xForwardedForConfig:
+        XForwardedForEnabled: true
+        XForwardedForProtoEnabled: true
+        XForwardedForSLBIdEnabled: true
+        XForwardedForSLBPortEnabled: true
+        XForwardedForClientSrcPortEnabled: true
 
 ---
 apiVersion: networking.k8s.io/v1

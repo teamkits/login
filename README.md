@@ -1,6 +1,9 @@
 # Login service
 base on the [keycloak](https://www.keycloak.org)
 
+[Platform Admin](https://auth.teamkits.online/admin)
+[Teamkits Panel](https://auth.teamkits.online/realms/teamkits.online/account)
+
 ### Tasks
 * [] Enable SSL
 * [] Custom theme
@@ -21,15 +24,13 @@ kubectl create secret tls -n teamkits \
 ```
 
 
+
 ### 阅读
+* [keycloak.X](https://blog.please-open.it)
 * [keycloak和自研系统的集成](http://www.flydean.com/keycloak-with-other-system)
 * [keycloak授权流程详解](https://blog.csdn.net/qq_33430322/article/details/106420202)
 * [keycloak界面配置及认证流程详解](https://blog.csdn.net/qq_33430322/article/details/105861261)
 * [在onelogin中使用OpenId Connect Authentication Flow](http://www.flydean.com/openid-connnect-with-onelogin)
-
-### Hosts
-#### local
-127.0.0.1 local.auth.teamkits.online
 
 ### Refs
 * keycloak:
@@ -42,7 +43,9 @@ kubectl create secret tls -n teamkits \
     https://github.com/bitnami/bitnami-docker-keycloak-gatekeeper
 
 * other-code:
+    https://github.com/keycloak/keycloak-quickstarts
     https://github.com/keycloak/keycloak-nodejs-admin-client
+    [OIDC Client](https://github.com/please-openit/oidc-bash-client)
 
 
 ### Docs

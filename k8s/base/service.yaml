@@ -4,11 +4,23 @@ metadata:
   name: login-svc
   labels:
     app: login-svc
+  # annotations:
+  #   service.beta.kubernetes.io/alibaba-cloud-loadbalancer-cert-id: "9038607"
+  #   service.beta.kubernetes.io/alibaba-cloud-loadbalancer-delete-protection: "on"
+  #   service.beta.kubernetes.io/alibaba-cloud-loadbalancer-address-type: "intranet"
+  #   service.beta.kubernetes.io/alibaba-cloud-loadbalancer-xforwardedfor-proto: "on"
+  #   service.beta.kubernetes.io/alibaba-cloud-loadbalancer-protocol-port: "https:443"
+  #   #service.beta.kubernetes.io/alibaba-cloud-loadbalancer-id: lb-bp1ijb9byws4ugjp4qdqu
+  #   service.beta.kubernetes.io/alibaba-cloud-loadbalancer-force-override-listeners: true
+  #   service.beta.kubernetes.io/alibaba-cloud-loadbalancer-hostname: "auth.teamkits.online"
+  #   service.beta.kubernetes.io/alibaba-cloud-loadbalancer-modification-protection: "ConsoleProtection"
 spec:
-  clusterIP: None
+  # clusterIP: None
+  # type: LoadBalancer
   selector:
     app: login-pod
   ports:
     - protocol: TCP
+      name: https
       port: 443
-      targetPort: 8443
+      targetPort: https-web-svc

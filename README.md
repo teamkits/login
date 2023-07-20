@@ -5,10 +5,6 @@ base on the [keycloak](https://www.keycloak.org)
 [Teamkits Panel](https://auth.teamkits.online/realms/teamkits.online/account)
 
 ### Tasks
-* [] Enable SSL
-* [] Custom theme
-* [] Setup clustering
-* [] Startup with mysql8.0
 
 ### CMDs
 ```
@@ -23,9 +19,8 @@ kubectl create secret tls -n teamkits \
     --dry-run=client -o yaml > <YOUR-FILE.yml>
 ```
 
-
-
 ### 阅读
+* [使用案例实战](https://www.zhihu.com/question/419613516)
 * [keycloak.X](https://blog.please-open.it)
 * [keycloak和自研系统的集成](http://www.flydean.com/keycloak-with-other-system)
 * [keycloak授权流程详解](https://blog.csdn.net/qq_33430322/article/details/106420202)

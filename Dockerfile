@@ -1,4 +1,4 @@
-FROM quay.io/keycloak/keycloak:20.0.2 as builder
+FROM quay.io/keycloak/keycloak:22.0.1 as init
 
 # Enable health and metrics support
 ENV KC_HEALTH_ENABLED=true
@@ -15,7 +15,7 @@ RUN /opt/keycloak/bin/kc.sh build \
     --metrics-enabled=true \
     --transaction-xa-enabled=false
 
-FROM quay.io/keycloak/keycloak:20.0.2
+FROM quay.io/keycloak/keycloak:22.0.1
 LABEL maintainer="wangwii@foxmail.com"
 
 # the configration
